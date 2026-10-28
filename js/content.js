@@ -1,4 +1,4 @@
-/* Verhaal, runen, haltes en regels voor de toren. Alle woorden komen uit LEEUW.vocab. */
+/* Verhaal, regexen, haltes en regels voor de toren. Alle woorden komen uit LEEUW.vocab. */
 window.CONTENT = (function () {
 
   const RUNES = [
@@ -79,7 +79,7 @@ window.CONTENT = (function () {
       creature: "de Kettingklad", taunt: "Hoeveel @ zie je? Eén? Drie? Ik ketting ze aan elkaar!",
       variants: [{ type: "spoor", rule: "@+", distractors: ["@", "@?", ".@", "@@"],
         prompt: "Elk geel vak is één vangst. Een hele reeks @ telt telkens als één geheel. Welke regex gaf deze vangst?",
-        hint: "Zonder ketting vangt @ elk teken apart. Met welke rune hang je ze aan elkaar?",
+        hint: "Zonder ketting vangt @ elk teken apart. Met welke regex hang je ze aan elkaar?",
         explain: "@+ vangt één of meer @ na elkaar als één geheel. Met alleen @ krijg je elk @ als aparte vangst." }] },
 
     { place: "Ieper", sub: "de Lakenhalle", x: 210, y: 768, icon: "hall",
@@ -131,7 +131,7 @@ window.CONTENT = (function () {
 
   // Regels voor de toren. near: waar we bijna-treffers zoeken (woorden die erop lijken, maar niet matchen).
   const TOWER_RULES = [
-    // tier 1-2: één rune
+    // tier 1-2: één regex
     { r: "ae", near: "aa", t: 1 }, { r: "aa", near: "ae", t: 1 }, { r: "ij", near: "y", t: 1 }, { r: "y", near: "ij", t: 1 },
     { r: "sch", near: "s", t: 1 }, { r: "oo", near: "o", t: 1 }, { r: "ch", near: "c|h", t: 1 },
     { r: "h.er", near: "^h", t: 2 }, { r: "Gra[ae]f", near: "^[Gg]ra", t: 2 }, { r: "Vla[ae]nde?ren", near: "^[Vv]la", t: 2 },
@@ -179,11 +179,11 @@ window.CONTENT = (function () {
       { title: "Het @ ontsnapt", scene: "blot",
         text: "Overal waar jullie iets niet konden lezen, typten jullie een @. Vandaag kroop al dat @ terug het papier in. Het klonterde samen tot één grote vlek met honderd ogen: de Grote Onleesbare. Het eet letters. Waar het komt, wordt de tekst onleesbaar." },
       { title: "Een briefje", scene: "letter",
-        text: "Uit de inkt dwarrelt een papiertje: 'Kopiist! De Onleesbare houdt me vast in zijn toren, op de laatste pagina. Volg de rode stippellijn door het land van het boek. Onderweg leer je runen: tekens die patronen vangen. Als je vastzit, stuur ik je een briefje. — Machteld'" }
+        text: "Uit de inkt dwarrelt een papiertje: 'Kopiist! De Onleesbare houdt me vast in zijn toren, op de laatste pagina. Volg de rode stippellijn door het land van het boek. Onderweg leer je regexen: tekens die patronen vangen. Als je vastzit, stuur ik je een briefje. — Machteld'" }
     ],
     towerIntro: "Je staat aan de voet van de Toren van de Grote Onleesbare. Elke verdieping is één vraag, en de vragen worden steeds moeilijker. Eén fout of één keer te traag, en je valt. Machteld zit op de vijfde verdieping.",
     freed: "De tralies van inkt lossen op. Machteld stapt naar buiten, met een ganzenveer achter haar oor. 'Dacht je dat ik hier zat te wachten? Ik schreef al die tijd de briefjes die je hielpen.' Ze grijnst. 'De toren gaat nog hoger. Hoe ver geraak jij?'",
-    fallEarly: "Je glijdt uit over een natte klodder en tuimelt naar beneden, op een zachte stapel kladpapier. Boven roept Machteld uit haar raam: 'Bijna! De runen ken je nu. Probeer het opnieuw.'",
+    fallEarly: "Je glijdt uit over een natte klodder en tuimelt naar beneden, op een zachte stapel kladpapier. Boven roept Machteld uit haar raam: 'Bijna! De regexen ken je nu. Probeer het opnieuw.'",
     fallLate: "Je valt, maar Machteld is vrij. Met jullie tweeën is de Grote Onleesbare gekrompen tot één klein, mopperend @."
   };
 

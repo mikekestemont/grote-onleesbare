@@ -86,7 +86,7 @@
   // ------------------------------------------------------------------ halte
   function runeCardHTML(i) {
     const r = C.RUNES[i];
-    return `<div class="rune-glyph">${esc(r.glyph)}</div><div class="rune-name">Nieuwe rune: ${esc(r.name)}</div><div>${esc(r.text)}</div>${demoHTML(r.demo)}`;
+    return `<div class="rune-glyph">${esc(r.glyph)}</div><div class="rune-name">Nieuwe regex: ${esc(r.name)}</div><div>${esc(r.text)}</div>${demoHTML(r.demo)}`;
   }
   function demoHTML(demo) {
     const [rx, words] = demo;
@@ -382,7 +382,7 @@
   function openOverlay(id) {
     if (id === "ovl-runes") {
       const n = Math.max(runesKnown(), store.get("runes", 0));
-      $("runebook").innerHTML = C.RUNES.map((r, i) => i < n ? `<div class="rb"><div class="g">${esc(r.glyph)}</div><div class="n">${esc(r.name)}</div><p>${esc(r.text)}</p>${demoHTML(r.demo)}</div>` : `<div class="rb locked"><div class="g">?</div><div class="n">Rune ${i + 1}</div><p>Te vinden in ${esc(C.STATIONS[i].place)}.</p></div>`).join("");
+      $("runebook").innerHTML = C.RUNES.map((r, i) => i < n ? `<div class="rb"><div class="g">${esc(r.glyph)}</div><div class="n">${esc(r.name)}</div><p>${esc(r.text)}</p>${demoHTML(r.demo)}</div>` : `<div class="rb locked"><div class="g">?</div><div class="n">Regex ${i + 1}</div><p>Te vinden in ${esc(C.STATIONS[i].place)}.</p></div>`).join("");
     }
     if (id === "ovl-top") $("toplist").innerHTML = topHTML(store.get("top", []), G && G.entryId);
     const o = $(id); o.hidden = false; o.dataset.prev = document.activeElement && document.activeElement.id || "";

@@ -27,7 +27,7 @@ window.ENGINE = (function () {
     if (/Nothing to repeat/i.test(msg)) return "Een ?, * of + moet ná een teken staan.";
     if (/\\ at end/i.test(msg)) return "Een \\ op het einde: wat wil je daarmee?";
     if (/Range out of order/i.test(msg)) return "Een bereik moet van klein naar groot gaan, zoals [a-z].";
-    return "Deze rune klopt nog niet. Kijk je haakjes en tekens na.";
+    return "Deze regex klopt nog niet. Kijk je haakjes en tekens na.";
   }
   const test = (re, w) => { re.lastIndex = 0; return re.test(w); };
 

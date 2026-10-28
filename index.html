@@ -18,7 +18,7 @@
     <div class="tally" id="tally" aria-label="Voortgang"></div>
     <div class="bar-right">
       <span class="score" id="score" aria-live="polite"></span>
-      <button class="iconbtn" id="btn-runes" title="Runenboek" aria-label="Runenboek openen">ᚱ</button>
+      <button class="iconbtn" id="btn-runes" title="Regexboek" aria-label="Regexboek openen">.*</button>
       <button class="iconbtn" id="btn-sound" title="Geluid aan/uit" aria-label="Geluid aan of uit">♪</button>
     </div>
   </header>
@@ -32,7 +32,7 @@
         <div class="eyebrow">Een regextocht door het handschrift van</div>
         <div class="eyebrow big">De Leeuw van Vlaenderen</div>
         <h1>De Grote Onleesbare</h1>
-        <p class="lede">Een inktwezen eet de letters uit het boek en houdt Machteld gevangen in zijn toren. Reis door tien haltes, leer onderweg tien runen en versla de wezens met reguliere expressies. Daarna wacht de toren: één fout en je valt.</p>
+        <p class="lede">Een inktwezen eet de letters uit het boek en houdt Machteld gevangen in zijn toren. Reis door tien haltes, leer bij elke halte een nieuwe regex en versla er de inktwezens mee. Daarna wacht de toren: één fout en je valt.</p>
         <label class="namefield" for="inp-name"><span>Hoe heet je, kopiist?</span>
           <input id="inp-name" type="text" maxlength="24" autocomplete="off" spellcheck="false"></label>
         <div class="btnrow center">
@@ -40,7 +40,7 @@
           <button class="btn" id="btn-calm" title="Zonder tijdslimiet, zonder punten">Leertocht zonder klok</button>
         </div>
         <div class="btnrow center" id="resume-row" hidden><button class="btn ghost" id="btn-resume"></button></div>
-        <div class="links"><button class="link" id="lnk-top">Erelijst</button> · <button class="link" id="lnk-runes">Runenboek</button> · <button class="link" id="lnk-about">Over dit spel</button></div>
+        <div class="links"><button class="link" id="lnk-top">Erelijst</button> · <button class="link" id="lnk-runes">Regexboek</button> · <button class="link" id="lnk-about">Over dit spel</button></div>
       </div>
     </section>
 
@@ -115,12 +115,12 @@
   </main>
 </div>
 
-<!-- runenboek -->
+<!-- regexboek -->
 <div class="overlay" id="ovl-runes" hidden role="dialog" aria-modal="true" aria-labelledby="ovl-runes-h">
   <div class="sheet overlay-sheet">
     <button class="close" data-close aria-label="Sluiten">×</button>
-    <h2 id="ovl-runes-h">Runenboek</h2>
-    <p class="sub">Elke halte leert je een nieuwe rune. Je mag dit boek altijd openslaan, ook midden in een duel.</p>
+    <h2 id="ovl-runes-h">Regexboek</h2>
+    <p class="sub">Elke halte leert je een nieuwe regex. Je mag dit boek altijd openslaan, ook midden in een duel.</p>
     <div class="runebook" id="runebook"></div>
   </div>
 </div>

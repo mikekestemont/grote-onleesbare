@@ -2,7 +2,7 @@
 
 Een regextocht door het handschrift van *De Leeuw van Vlaenderen* (Hendrik Conscience, 1838), gemaakt voor het vak Digitale geletterdheid (Universiteit Antwerpen).
 
-Een inktwezen, de Grote Onleesbare, eet de letters uit het boek en houdt Machteld gevangen in zijn toren. De speler reist langs tien haltes op een kaart van Vlaendren, leert bij elke halte een nieuwe *rune* (een stukje regex-syntaxis) en verslaat er een inktwezen mee. Daarna volgt de toren: *sudden death*, steeds moeilijker en sneller, tot de eerste fout. Op de vijfde verdieping zit Machteld.
+Een inktwezen, de Grote Onleesbare, eet de letters uit het boek en houdt Machteld gevangen in zijn toren. De speler reist langs tien haltes op een kaart van Vlaendren, leert bij elke halte een nieuwe regex (een stukje regex-syntaxis) en verslaat er een inktwezen mee. Daarna volgt de toren: *sudden death*, steeds moeilijker en sneller, tot de eerste fout. Op de vijfde verdieping zit Machteld.
 
 ## Spelopzet
 - **Tocht**: tien vragen, één per halte, elk met een tijdslimiet. Een fout kost punten, maar je reist verder.
@@ -11,8 +11,8 @@ Een inktwezen, de Grote Onleesbare, eet de letters uit het boek en houdt Machtel
 - **Leertocht zonder klok**: geen tijd, geen punten, briefjes (hints) gratis.
 - Na elke vraag: uitleg, een voorgelezen versie van de regex en de plaats in het handschrift (pagina en regel).
 
-## Runen
-| Halte | Rune | Syntaxis |
+## Regexen
+| Halte | Naam | Syntaxis |
 |---|---|---|
 | Damme | De Letter | gewone tekens |
 | Male | De Joker | `.` |
@@ -26,7 +26,7 @@ Een inktwezen, de Grote Onleesbare, eet de letters uit het boek en houdt Machtel
 | De Schelde | De Grens | `\b` |
 
 ## Voor de lesgever
-- Spring rechtstreeks naar een halte met `#halte1` … `#halte10`, of naar de toren met `#toren` (of `#toren5` voor de verdieping van Machteld). Handig om één rune klassikaal te demonstreren.
+- Spring rechtstreeks naar een halte met `#halte1` … `#halte10`, of naar de toren met `#toren` (of `#toren5` voor de verdieping van Machteld). Handig om één regex klassikaal te demonstreren.
 - De erelijst en de voortgang blijven alleen in de browser van de speler (localStorage). Er wordt niets verstuurd.
 - Elke opdracht wordt bij het maken gecontroleerd met echte JavaScript-regexen; `node tools/test_engine.js` genereert duizenden opdrachten en controleert dat elke opdracht precies één juist antwoord heeft.
 

@@ -54,6 +54,7 @@ button { font: inherit; color: inherit; }
 .bar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .score { font-family: var(--font-sc); font-size: 18px; font-variant-numeric: tabular-nums; color: var(--gold); min-width: 5ch; text-align: right; }
 .iconbtn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--vellum-3); background: transparent; color: var(--vellum); cursor: pointer; font-size: 18px; line-height: 1; }
+#btn-runes { font-family: var(--font-code); font-weight: 700; font-size: 14px; letter-spacing: -1px; }
 .iconbtn:hover { background: rgba(241,230,200,.1); }
 .iconbtn.off { opacity: .45; text-decoration: line-through; }
 
@@ -267,7 +268,7 @@ canvas.creature { width: 170px; height: auto; aspect-ratio: 200 / 170; }
     <div class="tally" id="tally" aria-label="Voortgang"></div>
     <div class="bar-right">
       <span class="score" id="score" aria-live="polite"></span>
-      <button class="iconbtn" id="btn-runes" title="Runenboek" aria-label="Runenboek openen">ᚱ</button>
+      <button class="iconbtn" id="btn-runes" title="Regexboek" aria-label="Regexboek openen">.*</button>
       <button class="iconbtn" id="btn-sound" title="Geluid aan/uit" aria-label="Geluid aan of uit">♪</button>
     </div>
   </header>
@@ -281,7 +282,7 @@ canvas.creature { width: 170px; height: auto; aspect-ratio: 200 / 170; }
         <div class="eyebrow">Een regextocht door het handschrift van</div>
         <div class="eyebrow big">De Leeuw van Vlaenderen</div>
         <h1>De Grote Onleesbare</h1>
-        <p class="lede">Een inktwezen eet de letters uit het boek en houdt Machteld gevangen in zijn toren. Reis door tien haltes, leer onderweg tien runen en versla de wezens met reguliere expressies. Daarna wacht de toren: één fout en je valt.</p>
+        <p class="lede">Een inktwezen eet de letters uit het boek en houdt Machteld gevangen in zijn toren. Reis door tien haltes, leer bij elke halte een nieuwe regex en versla er de inktwezens mee. Daarna wacht de toren: één fout en je valt.</p>
         <label class="namefield" for="inp-name"><span>Hoe heet je, kopiist?</span>
           <input id="inp-name" type="text" maxlength="24" autocomplete="off" spellcheck="false"></label>
         <div class="btnrow center">
@@ -289,7 +290,7 @@ canvas.creature { width: 170px; height: auto; aspect-ratio: 200 / 170; }
           <button class="btn" id="btn-calm" title="Zonder tijdslimiet, zonder punten">Leertocht zonder klok</button>
         </div>
         <div class="btnrow center" id="resume-row" hidden><button class="btn ghost" id="btn-resume"></button></div>
-        <div class="links"><button class="link" id="lnk-top">Erelijst</button> · <button class="link" id="lnk-runes">Runenboek</button> · <button class="link" id="lnk-about">Over dit spel</button></div>
+        <div class="links"><button class="link" id="lnk-top">Erelijst</button> · <button class="link" id="lnk-runes">Regexboek</button> · <button class="link" id="lnk-about">Over dit spel</button></div>
       </div>
     </section>
 
@@ -364,12 +365,12 @@ canvas.creature { width: 170px; height: auto; aspect-ratio: 200 / 170; }
   </main>
 </div>
 
-<!-- runenboek -->
+<!-- regexboek -->
 <div class="overlay" id="ovl-runes" hidden role="dialog" aria-modal="true" aria-labelledby="ovl-runes-h">
   <div class="sheet overlay-sheet">
     <button class="close" data-close aria-label="Sluiten">×</button>
-    <h2 id="ovl-runes-h">Runenboek</h2>
-    <p class="sub">Elke halte leert je een nieuwe rune. Je mag dit boek altijd openslaan, ook midden in een duel.</p>
+    <h2 id="ovl-runes-h">Regexboek</h2>
+    <p class="sub">Elke halte leert je een nieuwe regex. Je mag dit boek altijd openslaan, ook midden in een duel.</p>
     <div class="runebook" id="runebook"></div>
   </div>
 </div>
@@ -404,7 +405,7 @@ window.LEEUW = {"lines":[["1",1,"Standvastig was de trouw der vadren, als de mu=
 
 </script>
 <script>
-/* Verhaal, runen, haltes en regels voor de toren. Alle woorden komen uit LEEUW.vocab. */
+/* Verhaal, regexen, haltes en regels voor de toren. Alle woorden komen uit LEEUW.vocab. */
 window.CONTENT = (function () {
 
   const RUNES = [
@@ -485,7 +486,7 @@ window.CONTENT = (function () {
       creature: "de Kettingklad", taunt: "Hoeveel @ zie je? Eén? Drie? Ik ketting ze aan elkaar!",
       variants: [{ type: "spoor", rule: "@+", distractors: ["@", "@?", ".@", "@@"],
         prompt: "Elk geel vak is één vangst. Een hele reeks @ telt telkens als één geheel. Welke regex gaf deze vangst?",
-        hint: "Zonder ketting vangt @ elk teken apart. Met welke rune hang je ze aan elkaar?",
+        hint: "Zonder ketting vangt @ elk teken apart. Met welke regex hang je ze aan elkaar?",
         explain: "@+ vangt één of meer @ na elkaar als één geheel. Met alleen @ krijg je elk @ als aparte vangst." }] },
 
     { place: "Ieper", sub: "de Lakenhalle", x: 210, y: 768, icon: "hall",
@@ -537,7 +538,7 @@ window.CONTENT = (function () {
 
   // Regels voor de toren. near: waar we bijna-treffers zoeken (woorden die erop lijken, maar niet matchen).
   const TOWER_RULES = [
-    // tier 1-2: één rune
+    // tier 1-2: één regex
     { r: "ae", near: "aa", t: 1 }, { r: "aa", near: "ae", t: 1 }, { r: "ij", near: "y", t: 1 }, { r: "y", near: "ij", t: 1 },
     { r: "sch", near: "s", t: 1 }, { r: "oo", near: "o", t: 1 }, { r: "ch", near: "c|h", t: 1 },
     { r: "h.er", near: "^h", t: 2 }, { r: "Gra[ae]f", near: "^[Gg]ra", t: 2 }, { r: "Vla[ae]nde?ren", near: "^[Vv]la", t: 2 },
@@ -585,11 +586,11 @@ window.CONTENT = (function () {
       { title: "Het @ ontsnapt", scene: "blot",
         text: "Overal waar jullie iets niet konden lezen, typten jullie een @. Vandaag kroop al dat @ terug het papier in. Het klonterde samen tot één grote vlek met honderd ogen: de Grote Onleesbare. Het eet letters. Waar het komt, wordt de tekst onleesbaar." },
       { title: "Een briefje", scene: "letter",
-        text: "Uit de inkt dwarrelt een papiertje: 'Kopiist! De Onleesbare houdt me vast in zijn toren, op de laatste pagina. Volg de rode stippellijn door het land van het boek. Onderweg leer je runen: tekens die patronen vangen. Als je vastzit, stuur ik je een briefje. — Machteld'" }
+        text: "Uit de inkt dwarrelt een papiertje: 'Kopiist! De Onleesbare houdt me vast in zijn toren, op de laatste pagina. Volg de rode stippellijn door het land van het boek. Onderweg leer je regexen: tekens die patronen vangen. Als je vastzit, stuur ik je een briefje. — Machteld'" }
     ],
     towerIntro: "Je staat aan de voet van de Toren van de Grote Onleesbare. Elke verdieping is één vraag, en de vragen worden steeds moeilijker. Eén fout of één keer te traag, en je valt. Machteld zit op de vijfde verdieping.",
     freed: "De tralies van inkt lossen op. Machteld stapt naar buiten, met een ganzenveer achter haar oor. 'Dacht je dat ik hier zat te wachten? Ik schreef al die tijd de briefjes die je hielpen.' Ze grijnst. 'De toren gaat nog hoger. Hoe ver geraak jij?'",
-    fallEarly: "Je glijdt uit over een natte klodder en tuimelt naar beneden, op een zachte stapel kladpapier. Boven roept Machteld uit haar raam: 'Bijna! De runen ken je nu. Probeer het opnieuw.'",
+    fallEarly: "Je glijdt uit over een natte klodder en tuimelt naar beneden, op een zachte stapel kladpapier. Boven roept Machteld uit haar raam: 'Bijna! De regexen ken je nu. Probeer het opnieuw.'",
     fallLate: "Je valt, maar Machteld is vrij. Met jullie tweeën is de Grote Onleesbare gekrompen tot één klein, mopperend @."
   };
 
@@ -630,7 +631,7 @@ window.ENGINE = (function () {
     if (/Nothing to repeat/i.test(msg)) return "Een ?, * of + moet ná een teken staan.";
     if (/\\ at end/i.test(msg)) return "Een \\ op het einde: wat wil je daarmee?";
     if (/Range out of order/i.test(msg)) return "Een bereik moet van klein naar groot gaan, zoals [a-z].";
-    return "Deze rune klopt nog niet. Kijk je haakjes en tekens na.";
+    return "Deze regex klopt nog niet. Kijk je haakjes en tekens na.";
   }
   const test = (re, w) => { re.lastIndex = 0; return re.test(w); };
 
@@ -1518,7 +1519,7 @@ window.ART = (function () {
   // ------------------------------------------------------------------ halte
   function runeCardHTML(i) {
     const r = C.RUNES[i];
-    return `<div class="rune-glyph">${esc(r.glyph)}</div><div class="rune-name">Nieuwe rune: ${esc(r.name)}</div><div>${esc(r.text)}</div>${demoHTML(r.demo)}`;
+    return `<div class="rune-glyph">${esc(r.glyph)}</div><div class="rune-name">Nieuwe regex: ${esc(r.name)}</div><div>${esc(r.text)}</div>${demoHTML(r.demo)}`;
   }
   function demoHTML(demo) {
     const [rx, words] = demo;
@@ -1814,7 +1815,7 @@ window.ART = (function () {
   function openOverlay(id) {
     if (id === "ovl-runes") {
       const n = Math.max(runesKnown(), store.get("runes", 0));
-      $("runebook").innerHTML = C.RUNES.map((r, i) => i < n ? `<div class="rb"><div class="g">${esc(r.glyph)}</div><div class="n">${esc(r.name)}</div><p>${esc(r.text)}</p>${demoHTML(r.demo)}</div>` : `<div class="rb locked"><div class="g">?</div><div class="n">Rune ${i + 1}</div><p>Te vinden in ${esc(C.STATIONS[i].place)}.</p></div>`).join("");
+      $("runebook").innerHTML = C.RUNES.map((r, i) => i < n ? `<div class="rb"><div class="g">${esc(r.glyph)}</div><div class="n">${esc(r.name)}</div><p>${esc(r.text)}</p>${demoHTML(r.demo)}</div>` : `<div class="rb locked"><div class="g">?</div><div class="n">Regex ${i + 1}</div><p>Te vinden in ${esc(C.STATIONS[i].place)}.</p></div>`).join("");
     }
     if (id === "ovl-top") $("toplist").innerHTML = topHTML(store.get("top", []), G && G.entryId);
     const o = $(id); o.hidden = false; o.dataset.prev = document.activeElement && document.activeElement.id || "";

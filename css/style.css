@@ -42,6 +42,7 @@ button { font: inherit; color: inherit; }
 .bar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 .score { font-family: var(--font-sc); font-size: 18px; font-variant-numeric: tabular-nums; color: var(--gold); min-width: 5ch; text-align: right; }
 .iconbtn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--vellum-3); background: transparent; color: var(--vellum); cursor: pointer; font-size: 18px; line-height: 1; }
+#btn-runes { font-family: var(--font-code); font-weight: 700; font-size: 14px; letter-spacing: -1px; }
 .iconbtn:hover { background: rgba(241,230,200,.1); }
 .iconbtn.off { opacity: .45; text-decoration: line-through; }
 
