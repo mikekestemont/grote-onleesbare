@@ -1,0 +1,246 @@
+/* Eén wereld: perkament op een donkere schrijftafel. IJzergalinkt, vermiljoen (rubriek), kopergroen, bladgoud. */
+:root {
+  --desk: #241c15;
+  --desk-2: #33281e;
+  --vellum: #f1e6c8;
+  --vellum-2: #e6d6ad;
+  --vellum-3: #d9c594;
+  --ink: #2a1f16;
+  --sepia: #6e5236;
+  --rubric: #b8321f;
+  --rubric-dark: #8f2414;
+  --verdigris: #2f7d6d;
+  --gold: #c99a2e;
+  --night: #17131f;
+  --font-display: "Grenze Gotisch", "UnifrakturMaguntia", Georgia, serif;
+  --font-body: "Alegreya", Georgia, "Times New Roman", serif;
+  --font-sc: "Alegreya SC", "Alegreya", Georgia, serif;
+  --font-code: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: radial-gradient(ellipse at 50% 0%, var(--desk-2), var(--desk) 70%) fixed, var(--desk);
+  color: var(--ink); font-family: var(--font-body); font-size: 18px; line-height: 1.45;
+  padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px));
+  padding-block: 10px 24px; min-height: 100vh;
+}
+button { font: inherit; color: inherit; }
+#app { max-width: 1240px; margin: 0 auto; display: grid; gap: 8px; }
+
+/* balk */
+.bar { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; color: var(--vellum); padding: 2px 4px; }
+.brand { font-family: var(--font-display); font-size: 26px; letter-spacing: .02em; }
+.tally { display: flex; gap: 5px; align-items: center; flex-wrap: wrap; }
+.tally .dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--vellum-3); opacity: .8; }
+.tally .dot.ok { background: var(--verdigris); border-color: #8fd0bf; opacity: 1; }
+.tally .dot.no { background: var(--rubric); border-color: #f0a090; opacity: 1; }
+.tally .dot.now { box-shadow: 0 0 0 3px rgba(201,154,46,.6); }
+.tally .floor { font-family: var(--font-sc); font-size: 16px; margin-left: 6px; color: var(--gold); }
+.bar-right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+.score { font-family: var(--font-sc); font-size: 18px; font-variant-numeric: tabular-nums; color: var(--gold); min-width: 5ch; text-align: right; }
+.iconbtn { width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid var(--vellum-3); background: transparent; color: var(--vellum); cursor: pointer; font-size: 18px; line-height: 1; }
+.iconbtn:hover { background: rgba(241,230,200,.1); }
+.iconbtn.off { opacity: .45; text-decoration: line-through; }
+
+/* podium met kaart */
+#stage { position: relative; border-radius: 6px; overflow: hidden; box-shadow: 0 18px 50px rgba(0,0,0,.55), 0 0 0 1px #000; background: var(--vellum); }
+#map { display: block; width: 100%; aspect-ratio: 16 / 10; }
+
+/* perkamenten vellen */
+.sheet {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: min(760px, calc(100% - 32px)); max-height: calc(100% - 28px); overflow: auto;
+  background: linear-gradient(180deg, rgba(255,250,235,.55), rgba(0,0,0,0) 30%), var(--vellum);
+  border: 1.5px solid var(--ink); outline: 1px solid var(--ink); outline-offset: -7px;
+  box-shadow: 0 14px 40px rgba(20,12,4,.45); padding: 22px 26px; display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px;
+}
+.sheet h1 { font-family: var(--font-display); font-weight: 700; font-size: clamp(42px, 7vw, 76px); line-height: .95; margin: 0; text-wrap: balance; color: var(--ink); }
+.sheet h2 { font-family: var(--font-display); font-weight: 500; font-size: 34px; line-height: 1; margin: 0; text-wrap: balance; }
+.sheet h3 { font-family: var(--font-sc); font-size: 18px; margin: 6px 0 0; letter-spacing: .04em; color: var(--sepia); }
+.sheet p { margin: 0; max-width: 66ch; }
+.eyebrow { font-family: var(--font-sc); font-size: 15px; letter-spacing: .08em; color: var(--sepia); }
+.eyebrow.big { font-size: 20px; font-style: italic; letter-spacing: .03em; color: var(--rubric); }
+.sub { font-style: italic; color: var(--sepia); }
+.lede { font-size: 19px; }
+
+.btnrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.btnrow.center { justify-content: center; }
+.btn {
+  font-family: var(--font-sc); font-size: 18px; letter-spacing: .04em; padding: 9px 18px; cursor: pointer;
+  border: 1.5px solid var(--ink); background: var(--vellum-2); color: var(--ink); border-radius: 3px;
+  box-shadow: 0 2px 0 var(--ink);
+}
+.btn:hover { background: var(--vellum-3); }
+.btn:active { transform: translateY(2px); box-shadow: none; }
+.btn.primary { background: var(--rubric); color: #fff4e0; border-color: var(--rubric-dark); box-shadow: 0 2px 0 var(--rubric-dark); }
+.btn.primary:hover { background: #c83c27; }
+.btn.ghost { background: transparent; box-shadow: none; border-style: dashed; }
+.btn:focus-visible, .iconbtn:focus-visible, .opt:focus-visible, .link:focus-visible, input:focus-visible, .runekey:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
+.link { background: none; border: 0; padding: 0; color: var(--rubric); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; font-family: var(--font-body); font-size: 17px; }
+.links { text-align: center; color: var(--sepia); }
+
+/* titel */
+.sheet-title { width: min(640px, calc(100% - 32px)); text-align: center; }
+.cartouche { display: grid; gap: 12px; justify-items: center; }
+.namefield { display: grid; gap: 4px; justify-items: center; font-family: var(--font-sc); color: var(--sepia); }
+.namefield input { font-family: var(--font-body); font-size: 20px; text-align: center; padding: 6px 10px; width: min(320px, 80vw); border: 0; border-bottom: 2px solid var(--ink); background: transparent; color: var(--ink); }
+
+/* verhaal */
+.sheet-story { grid-template-columns: minmax(0, 1fr); }
+#story-art { width: 100%; max-width: 640px; aspect-ratio: 640 / 300; height: auto; justify-self: center; border: 1px solid var(--vellum-3); }
+.story-text { display: grid; gap: 10px; }
+#story-body { font-size: 19px; }
+
+/* reisbalk */
+.travelbar {
+  position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%); width: min(620px, calc(100% - 24px));
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  background: var(--vellum); border: 1.5px solid var(--ink); outline: 1px solid var(--ink); outline-offset: -6px; padding: 12px 18px;
+  box-shadow: 0 10px 28px rgba(20,12,4,.45);
+}
+.travelbar .label { font-family: var(--font-sc); color: var(--sepia); }
+.travelbar b { font-family: var(--font-display); font-weight: 500; font-size: 26px; }
+.travelbar i { color: var(--sepia); }
+
+/* halte */
+.station-head, .duel-head { display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center; }
+.duel-head { grid-template-columns: auto 1fr; }
+.duel-info { min-width: 0; display: grid; gap: 4px; }
+canvas.creature { width: 170px; height: auto; aspect-ratio: 200 / 170; }
+.taunt { margin: 0; padding: 6px 14px; border-left: 3px solid var(--night); font-style: italic; color: #3b2f45; }
+.rune-card { display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; align-items: center; padding: 14px 16px; background: var(--vellum-2); border: 1px solid var(--vellum-3); border-radius: 4px; }
+.rune-glyph { grid-row: span 3; font-family: var(--font-code); font-weight: 700; font-size: 34px; color: #fff4e0; background: var(--rubric); border-radius: 50%; min-width: 74px; height: 74px; display: grid; place-items: center; padding: 0 10px; box-shadow: inset 0 0 0 3px var(--rubric-dark), 0 0 0 3px var(--gold); }
+.rune-name { font-family: var(--font-sc); font-size: 20px; color: var(--rubric); }
+.rune-demo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 16px; }
+.chip mark, .rune-demo mark { background: var(--gold); color: var(--ink); border-radius: 2px; padding: 0 1px; }
+.duel-locked .regexrow, .duel-locked .runekeys { opacity: .6; pointer-events: none; }
+.rune-demo code { font-family: var(--font-code); background: var(--ink); color: var(--vellum); padding: 2px 8px; border-radius: 3px; }
+
+/* duel */
+.timer { height: 10px; background: var(--vellum-3); border: 1px solid var(--ink); border-radius: 5px; overflow: hidden; }
+#timer-fill { height: 100%; width: 100%; background: var(--verdigris); transform-origin: left; }
+.timer.low #timer-fill { background: var(--rubric); }
+.timer.calm { display: none; }
+.fields { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; }
+.field { border: 1.5px solid var(--ink); border-radius: 4px; padding: 8px 10px 10px; background: rgba(255,255,255,.25); min-width: 0; }
+.field h4 { margin: 0 0 6px; font-family: var(--font-sc); font-size: 16px; letter-spacing: .05em; display: flex; justify-content: space-between; gap: 8px; }
+.field.net h4 { color: var(--verdigris); }
+.field.bank h4 { color: var(--rubric); }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { font-family: var(--font-body); font-size: 19px; padding: 2px 10px; border-radius: 3px; border: 1.5px dashed var(--sepia); background: var(--vellum); transition: background .15s, transform .15s; }
+.field.net .chip.hit { background: var(--gold); border: 1.5px solid #8a6614; color: var(--ink); }
+.field.bank .chip.hit { background: var(--rubric); border: 1.5px solid var(--rubric-dark); color: #fff4e0; animation: wobble .35s; }
+.field.net .chip.miss { opacity: .85; }
+@keyframes wobble { 0%,100% { transform: rotate(0); } 30% { transform: rotate(-4deg); } 60% { transform: rotate(3deg); } }
+.regexrow { display: flex; align-items: stretch; border: 2px solid var(--ink); border-radius: 4px; background: #fffaf0; overflow: hidden; }
+.regexrow span { display: grid; place-items: center; padding: 0 10px; font-family: var(--font-code); font-size: 24px; color: var(--sepia); background: var(--vellum-2); }
+.regexrow input { flex: 1; min-width: 0; border: 0; background: transparent; font-family: var(--font-code); font-size: 24px; padding: 10px 8px; color: var(--ink); }
+.regexrow input:focus { outline: none; }
+.regexrow:focus-within { box-shadow: 0 0 0 3px var(--gold); }
+.runekeys { display: flex; flex-wrap: wrap; gap: 6px; }
+.runekey { font-family: var(--font-code); font-size: 18px; min-width: 42px; height: 40px; padding: 0 10px; border: 1.5px solid var(--ink); border-radius: 4px; background: var(--vellum-2); cursor: pointer; }
+.runekey:hover { background: var(--vellum-3); }
+.runekey.del { font-family: var(--font-body); }
+.status { min-height: 1.4em; font-style: italic; color: var(--sepia); }
+.status.err { color: var(--rubric); font-style: normal; }
+.bigregex { font-family: var(--font-code); font-size: 30px; text-align: center; padding: 10px; background: var(--ink); color: var(--vellum); border-radius: 4px; overflow-x: auto; }
+.opts { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.opt { text-align: left; padding: 12px 14px; border: 1.5px solid var(--ink); border-radius: 4px; background: var(--vellum-2); cursor: pointer; box-shadow: 0 2px 0 var(--ink); display: flex; gap: 10px; align-items: baseline; min-width: 0; }
+.opt:hover { background: var(--vellum-3); }
+.opt .k { font-family: var(--font-sc); color: var(--sepia); font-size: 15px; }
+.opt .v { font-size: 21px; overflow-wrap: anywhere; }
+.opt .v.code { font-family: var(--font-code); font-size: 20px; }
+.opt.right { background: var(--verdigris); color: #fff; border-color: #1d5247; }
+.opt.right .k, .opt.wrong .k { color: rgba(255,255,255,.75); }
+.opt.wrong { background: var(--rubric); color: #fff; border-color: var(--rubric-dark); }
+.opt:disabled { cursor: default; }
+.manuscript { padding: 14px 16px; background: #f7eed2; border: 1px solid var(--vellum-3); box-shadow: inset 0 0 30px rgba(110,82,54,.18); font-family: var(--font-body); font-style: italic; font-size: 22px; line-height: 1.8; overflow-wrap: anywhere; }
+.manuscript mark { font-style: normal; background: var(--gold); color: var(--ink); padding: 1px 2px; margin: 0 1px; border-radius: 2px; box-shadow: 0 0 0 1.5px #8a6614; }
+.prov { font-family: var(--font-sc); font-size: 14px; color: var(--sepia); letter-spacing: .04em; }
+
+/* resultaat */
+.result { display: grid; gap: 8px; padding: 14px 16px; border-radius: 4px; border: 2px solid; }
+.result.ok { border-color: var(--verdigris); background: rgba(47,125,109,.1); }
+.result.no { border-color: var(--rubric); background: rgba(184,50,31,.08); }
+.result .verdict { font-family: var(--font-display); font-size: 30px; line-height: 1; }
+.result.ok .verdict { color: var(--verdigris); }
+.result.no .verdict { color: var(--rubric); }
+.result code, .rune-card code, .sheet p code { font-family: var(--font-code); background: var(--ink); color: var(--vellum); padding: 1px 6px; border-radius: 3px; font-size: .9em; }
+.pts { font-family: var(--font-sc); color: var(--gold); font-size: 20px; }
+.quote { font-style: italic; }
+.quote mark { background: var(--gold); padding: 0 2px; }
+.hintbox { padding: 10px 14px; background: #fffaf0; border: 1px dashed var(--sepia); font-style: italic; position: relative; }
+.hintbox::before { content: "Briefje van Machteld"; display: block; font-family: var(--font-sc); font-style: normal; font-size: 14px; color: var(--verdigris); letter-spacing: .05em; }
+
+/* toren */
+.sheet-tower { grid-template-columns: auto 1fr; align-items: center; gap: 22px; width: min(820px, calc(100% - 32px)); }
+#tower-art { width: 260px; height: auto; aspect-ratio: 360 / 460; }
+.tower-text { display: grid; gap: 10px; }
+
+/* einde */
+.sheet-end { grid-template-columns: minmax(0, 340px) 1fr; gap: 22px; width: min(920px, calc(100% - 32px)); align-items: start; }
+.oorkonde { background: #fbf3dc; border: 2px solid var(--ink); outline: 1px solid var(--gold); outline-offset: -8px; padding: 22px 20px; text-align: center; display: grid; gap: 8px; justify-items: center; }
+.oorkonde .o-title { font-family: var(--font-display); font-size: 36px; line-height: 1; }
+.oorkonde .o-name { font-family: var(--font-display); font-size: 30px; color: var(--rubric); line-height: 1.05; }
+.oorkonde .o-score { font-family: var(--font-sc); font-size: 40px; color: var(--ink); font-variant-numeric: tabular-nums; }
+.oorkonde canvas { width: 120px; height: 120px; }
+.oorkonde small { color: var(--sepia); font-style: italic; }
+.end-side { display: grid; gap: 10px; }
+.statgrid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 760px) { .statgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.stat { border: 1px solid var(--vellum-3); background: var(--vellum-2); padding: 8px 10px; border-radius: 4px; }
+.stat b { display: block; font-family: var(--font-sc); font-size: 26px; font-variant-numeric: tabular-nums; }
+.stat span { font-size: 14px; color: var(--sepia); }
+.toplist { margin: 0; padding-left: 1.6em; display: grid; gap: 2px; font-variant-numeric: tabular-nums; }
+.toplist li { padding: 2px 4px; }
+.toplist li.me { background: var(--gold); border-radius: 3px; font-weight: 700; }
+.toplist .tl-score { float: right; font-family: var(--font-sc); }
+.toplist .tl-meta { color: var(--sepia); font-size: 14px; font-style: italic; }
+
+/* overlays */
+.overlay { position: fixed; inset: 0; background: rgba(20,14,8,.72); display: grid; place-items: center; z-index: 50; padding: 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.overlay-sheet { position: relative; left: auto; top: auto; transform: none; max-height: calc(100vh - 40px); width: min(820px, 100%); }
+.overlay-sheet.narrow { width: min(520px, 100%); }
+.close { position: absolute; right: 12px; top: 8px; border: 0; background: none; font-size: 32px; cursor: pointer; color: var(--sepia); }
+.runebook { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+.runebook .rb { display: grid; gap: 6px; padding: 12px; border: 1px solid var(--vellum-3); background: var(--vellum-2); border-radius: 4px; }
+.runebook .rb.locked { opacity: .5; filter: grayscale(1); }
+.runebook .rb .g { font-family: var(--font-code); font-weight: 700; font-size: 24px; color: var(--rubric); }
+.runebook .rb .n { font-family: var(--font-sc); font-size: 18px; }
+.runebook .rb p { font-size: 16px; }
+.credits { font-size: 15px; color: var(--sepia); font-style: italic; }
+
+/* flits en zwevende punten */
+#flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .35s; }
+#flash.ok { background: radial-gradient(circle, rgba(47,125,109,.0), rgba(47,125,109,.45)); opacity: 1; transition: none; }
+#flash.no { background: radial-gradient(circle, rgba(184,50,31,.0), rgba(184,50,31,.5)); opacity: 1; transition: none; }
+#floaters { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.floater { position: absolute; font-family: var(--font-sc); font-size: 30px; color: var(--gold); text-shadow: 0 2px 0 var(--ink), 0 0 12px rgba(0,0,0,.4); animation: floatup 1.4s ease-out forwards; }
+@keyframes floatup { 0% { transform: translateY(0) scale(.7); opacity: 0; } 20% { opacity: 1; transform: translateY(-10px) scale(1.1); } 100% { transform: translateY(-90px) scale(1); opacity: 0; } }
+
+/* smal scherm: kaart bovenaan, vellen eronder */
+@media (max-width: 760px) {
+  body { font-size: 17px; }
+  .brand { font-size: 21px; }
+  #stage { overflow: visible; background: transparent; box-shadow: none; display: grid; gap: 10px; }
+  #map { border-radius: 6px; box-shadow: 0 8px 24px rgba(0,0,0,.5); }
+  .sheet, .travelbar { position: relative; left: auto; top: auto; bottom: auto; transform: none; width: 100%; max-height: none; }
+  .sheet { padding: 18px 16px; }
+  .sheet-tower, .sheet-end { grid-template-columns: minmax(0, 1fr); }
+  .rune-card { grid-template-columns: minmax(0, 1fr); }
+  .rune-glyph { grid-row: auto; justify-self: start; min-width: 56px; height: 56px; font-size: 26px; }
+  #tower-art { width: 180px; justify-self: center; }
+  .fields { grid-template-columns: minmax(0, 1fr); }
+  .opts { grid-template-columns: minmax(0, 1fr); }
+  .duel-head { grid-template-columns: 110px 1fr; }
+  .station-head { grid-template-columns: 1fr 110px; }
+  canvas.creature { width: 110px; }
+  .sheet h2 { font-size: 28px; }
+  .regexrow input, .regexrow span { font-size: 21px; }
+  #flash, #floaters { position: fixed; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .floater, .field.bank .chip.hit { animation: none; }
+}

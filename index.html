@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>De Grote Onleesbare</title>
+<meta name="description" content="Een regextocht door het handschrift van De Leeuw van Vlaenderen. Leer reguliere expressies, versla de inktwezens en bevrijd Machteld.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='28' fill='%23b8321f'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23f1e6c8' font-family='serif'%3E@%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@500;700&family=Alegreya:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Alegreya+SC:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="app">
+  <header class="bar" id="bar">
+    <div class="brand">De Grote Onleesbare</div>
+    <div class="tally" id="tally" aria-label="Voortgang"></div>
+    <div class="bar-right">
+      <span class="score" id="score" aria-live="polite"></span>
+      <button class="iconbtn" id="btn-runes" title="Runenboek" aria-label="Runenboek openen">ᚱ</button>
+      <button class="iconbtn" id="btn-sound" title="Geluid aan/uit" aria-label="Geluid aan of uit">♪</button>
+    </div>
+  </header>
+
+  <main id="stage">
+    <canvas id="map" aria-label="Kaart van Vlaendren met de route naar de toren van de Grote Onleesbare"></canvas>
+
+    <!-- titel -->
+    <section class="sheet sheet-title" id="scr-title" hidden>
+      <div class="cartouche">
+        <div class="eyebrow">Een regextocht door het handschrift van</div>
+        <div class="eyebrow big">De Leeuw van Vlaenderen</div>
+        <h1>De Grote Onleesbare</h1>
+        <p class="lede">Een inktwezen eet de letters uit het boek en houdt Machteld gevangen in zijn toren. Reis door tien haltes, leer onderweg tien runen en versla de wezens met reguliere expressies. Daarna wacht de toren: één fout en je valt.</p>
+        <label class="namefield" for="inp-name"><span>Hoe heet je, kopiist?</span>
+          <input id="inp-name" type="text" maxlength="24" autocomplete="off" spellcheck="false"></label>
+        <div class="btnrow center">
+          <button class="btn primary" id="btn-start">Begin de tocht</button>
+          <button class="btn" id="btn-calm" title="Zonder tijdslimiet, zonder punten">Leertocht zonder klok</button>
+        </div>
+        <div class="btnrow center" id="resume-row" hidden><button class="btn ghost" id="btn-resume"></button></div>
+        <div class="links"><button class="link" id="lnk-top">Erelijst</button> · <button class="link" id="lnk-runes">Runenboek</button> · <button class="link" id="lnk-about">Over dit spel</button></div>
+      </div>
+    </section>
+
+    <!-- verhaal -->
+    <section class="sheet sheet-story" id="scr-story" hidden>
+      <canvas id="story-art" width="640" height="300"></canvas>
+      <div class="story-text">
+        <h2 id="story-title"></h2>
+        <p id="story-body"></p>
+        <div class="btnrow"><button class="btn primary" id="btn-story-next">Verder</button><button class="btn ghost" id="btn-story-skip">Overslaan</button></div>
+      </div>
+    </section>
+
+    <!-- onderweg -->
+    <div class="travelbar" id="travel" hidden>
+      <div><span class="label">Volgende halte</span> <b id="travel-name"></b> <i id="travel-sub"></i></div>
+      <button class="btn primary" id="btn-go">Op weg</button>
+    </div>
+
+    <!-- halte -->
+    <section class="sheet sheet-station" id="scr-station" hidden>
+      <div class="station-head">
+        <div><div class="eyebrow" id="st-count"></div><h2 id="st-place"></h2><div class="sub" id="st-sub"></div></div>
+        <canvas class="creature" id="st-creature" width="200" height="170"></canvas>
+      </div>
+      <p id="st-blurb"></p>
+      <blockquote class="taunt" id="st-taunt"></blockquote>
+      <div class="rune-card" id="st-rune"></div>
+      <div class="btnrow"><button class="btn primary" id="btn-fight">Ten strijde!</button></div>
+    </section>
+
+    <!-- duel -->
+    <section class="sheet sheet-duel" id="scr-duel" hidden>
+      <div class="duel-head">
+        <canvas class="creature" id="duel-creature" width="200" height="170"></canvas>
+        <div class="duel-info">
+          <div class="eyebrow" id="duel-where"></div>
+          <h2 id="duel-foe"></h2>
+          <p id="duel-prompt"></p>
+        </div>
+      </div>
+      <div class="timer" id="timer" aria-hidden="true"><div id="timer-fill"></div></div>
+      <div id="duel-body"></div>
+      <div class="result" id="duel-result" hidden></div>
+    </section>
+
+    <!-- toren -->
+    <section class="sheet sheet-tower" id="scr-tower" hidden>
+      <canvas id="tower-art" width="360" height="460"></canvas>
+      <div class="tower-text">
+        <div class="eyebrow" id="tw-eyebrow"></div>
+        <h2 id="tw-title"></h2>
+        <p id="tw-body"></p>
+        <div class="btnrow"><button class="btn primary" id="btn-climb">Klim</button></div>
+      </div>
+    </section>
+
+    <!-- einde -->
+    <section class="sheet sheet-end" id="scr-end" hidden>
+      <div class="oorkonde" id="oorkonde"></div>
+      <div class="end-side">
+        <p id="end-story"></p>
+        <div id="end-stats"></div>
+        <h3>Erelijst op dit toestel</h3>
+        <ol class="toplist" id="end-top"></ol>
+        <div class="btnrow"><button class="btn primary" id="btn-again">Nog een tocht</button><button class="btn ghost" id="btn-home">Naar het begin</button></div>
+      </div>
+    </section>
+
+    <div id="flash" aria-hidden="true"></div>
+    <div id="floaters" aria-hidden="true"></div>
+  </main>
+</div>
+
+<!-- runenboek -->
+<div class="overlay" id="ovl-runes" hidden role="dialog" aria-modal="true" aria-labelledby="ovl-runes-h">
+  <div class="sheet overlay-sheet">
+    <button class="close" data-close aria-label="Sluiten">×</button>
+    <h2 id="ovl-runes-h">Runenboek</h2>
+    <p class="sub">Elke halte leert je een nieuwe rune. Je mag dit boek altijd openslaan, ook midden in een duel.</p>
+    <div class="runebook" id="runebook"></div>
+  </div>
+</div>
+
+<!-- erelijst -->
+<div class="overlay" id="ovl-top" hidden role="dialog" aria-modal="true" aria-labelledby="ovl-top-h">
+  <div class="sheet overlay-sheet narrow">
+    <button class="close" data-close aria-label="Sluiten">×</button>
+    <h2 id="ovl-top-h">Erelijst</h2>
+    <p class="sub">De tien beste tochten op dit toestel. Leertochten zonder klok tellen niet mee.</p>
+    <ol class="toplist" id="toplist"></ol>
+  </div>
+</div>
+
+<!-- over -->
+<div class="overlay" id="ovl-about" hidden role="dialog" aria-modal="true" aria-labelledby="ovl-about-h">
+  <div class="sheet overlay-sheet">
+    <button class="close" data-close aria-label="Sluiten">×</button>
+    <h2 id="ovl-about-h">Over dit spel</h2>
+    <h3>Hoe het werkt</h3>
+    <p>De tocht telt tien vragen, één per halte. Elke vraag moet binnen de tijd beantwoord zijn; een fout kost punten, maar je reist gewoon verder. Daarna begint de toren: elke verdieping is een vraag, steeds moeilijker en steeds sneller. Eén fout of één keer te traag, en je valt. Op de vijfde verdieping zit Machteld. Die opzet komt uit een experiment met een spel over echte en nagemaakte raplyrics (Karsdorp, Manjavacas &amp; Kestemont, <i>PLOS ONE</i>, 2019): tien vragen, dan <i>sudden death</i>.</p>
+    <h3>Waar de woorden vandaan komen</h3>
+    <p>Elk woord en elke regel in dit spel komt uit de transcripties die de studenten van Digitale geletterdheid (Universiteit Antwerpen, 2025-2027) maakten van het handschrift van <i>De Leeuw van Vlaenderen</i> (Letterenhuis, C 34 / H (1)). Fouten en onleesbare plekken (@) staan er nog in. Daarom vind je soms Breydel, soms Breijdel en soms Bregdel. Na elke vraag zie je op welke pagina en regel een woord staat.</p>
+    <h3>Over deze Leeuw</h3>
+    <p>Hendrik Conscience schreef <i>De Leeuw van Vlaenderen</i> in 1838, acht jaar na de Belgische onafhankelijkheid. Hij maakte van de Guldensporenslag (1302) een romantisch verhaal over trots en vrijheid. Dat boek hielp een Vlaams nationaal gevoel vormgeven, en de leeuw werd later ook een symbool dat extreemrechtse bewegingen voor zich opeisten. Dit spel vertelt dat verhaal niet na. Hier vecht niemand om land, taal of afkomst. De enige vijand is onleesbaarheid, en het enige wapen is zorgvuldig lezen.</p>
+    <p class="credits">Gemaakt door Mike Kestemont en Claude voor het vak Digitale geletterdheid. Werkt in elke moderne browser, ook op een smartphone. Je voortgang en de erelijst blijven alleen op dit toestel.</p>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/content.js"></script>
+<script src="js/engine.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/art.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
