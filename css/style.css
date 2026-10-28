@@ -19,6 +19,7 @@
   color-scheme: light;
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; } /* anders wint bv. .overlay { display: grid } van het hidden-attribuut */
 html, body { margin: 0; }
 body {
   background: radial-gradient(ellipse at 50% 0%, var(--desk-2), var(--desk) 70%) fixed, var(--desk);
